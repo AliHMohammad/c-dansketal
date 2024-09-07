@@ -4,9 +4,9 @@
 typedef enum {NEVER, EVERY, LAST} occurrence;
 
 struct NumberFormat {
-    occurrence og;  // Occurrence of "og" between numbers
-    occurrence e;   // Occurrence of "e" in "hundrede" or "tusinde"
-    int use_et;     // Whether to use "et" before hundred and thousand
+    occurrence og;  // Brug af "og" mellem tal
+    occurrence e;   // Brug af "e" i "hundrede" eller "tusinde"
+    int use_et;     // Bruge "et" før hundred eller tusinde
 };
 
 #include "main.h"
@@ -81,7 +81,7 @@ void convert_to_danish(int number, char* buffer, struct NumberFormat format) {
 
         if (rem > 0) {
             strcat(buffer, " ");
-            if (rem < 100) {  // Tilføj kun og, hvis der er under 100 tilbage
+            if (rem < 100) {  // Tilføj kun "og", hvis der er under 100 tilbage
                 append_and(buffer, format, 1);
             }
             convert_to_danish(rem, buffer, format);
@@ -100,7 +100,7 @@ void convert_to_danish(int number, char* buffer, struct NumberFormat format) {
 
         if (rem > 0) {
             strcat(buffer, " ");
-            if (rem < 100) {  // Tilføj kun og, hvis der er under 100 tilbage
+            if (rem < 100) {  // Tilføj kun "og", hvis der er under 100 tilbage
                 append_and(buffer, format, 1);
             }
             convert_to_danish(rem, buffer, format);
@@ -110,11 +110,15 @@ void convert_to_danish(int number, char* buffer, struct NumberFormat format) {
 
 
 int main() {
-    char buffer[1024] = {0};
     struct NumberFormat format = {LAST, EVERY, 0};
 
-    dansketal(1567, buffer, format);
-    printf("%s\n", buffer);
+    while (1)
+    {
+        char buffer[1024] = {0};
+        int num = input_number();
+        dansketal(num, buffer, format);
+        printf("%s\n", buffer);
+    }
 
     return 0;
 }
