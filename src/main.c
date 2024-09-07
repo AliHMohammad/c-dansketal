@@ -11,6 +11,19 @@ struct NumberFormat {
 
 #include "main.h"
 
+int main() {
+    struct NumberFormat format = {LAST, EVERY, 0};
+
+    while (1)
+    {
+        char buffer[1024] = {0};
+        int num = input_number();
+        dansketal(num, buffer, format);
+        printf("%s\n", buffer);
+    }
+
+    return 0;
+}
 
 void dansketal(int number, char* buffer, struct NumberFormat format) {
     // Negativt tal
@@ -106,19 +119,4 @@ void convert_to_danish(int number, char* buffer, struct NumberFormat format) {
             convert_to_danish(rem, buffer, format);
         }
     }
-}
-
-
-int main() {
-    struct NumberFormat format = {LAST, EVERY, 0};
-
-    while (1)
-    {
-        char buffer[1024] = {0};
-        int num = input_number();
-        dansketal(num, buffer, format);
-        printf("%s\n", buffer);
-    }
-
-    return 0;
 }
