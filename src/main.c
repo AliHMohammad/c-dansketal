@@ -67,7 +67,45 @@ void convert_to_danish(int number, char* buffer, struct NumberFormat format) {
             append_and(buffer, format, 1);
             convert_to_danish(rem, buffer, format);
         }
-    } 
+    } else if (number < 1000000) {
+        int thousand = number / 1000;
+        int rem = number % 1000;
+
+        if (thousand == 1 && !format.use_et) {
+            strcat(buffer, "tusind");
+        } else {
+            convert_to_danish(thousand, buffer, format);
+            strcat(buffer, " ");
+            strcat(buffer, format.e == NEVER ? "tusind" : "tusinde");
+        }
+
+        if (rem > 0) {
+            strcat(buffer, " ");
+            if (rem < 100) {  // Tilføj kun og, hvis der er under 100 tilbage
+                append_and(buffer, format, 1);
+            }
+            convert_to_danish(rem, buffer, format);
+        }
+    } else if (number < 1000000000) {
+        int million = number / 1000000;
+        int rem = number % 1000000;
+
+        if (million == 1 && !format.use_et) {
+            strcat(buffer, "million");
+        } else {
+            convert_to_danish(million, buffer, format);
+            strcat(buffer, " ");
+            strcat(buffer, format.e == NEVER ? "million" : "millioner");
+        }
+
+        if (rem > 0) {
+            strcat(buffer, " ");
+            if (rem < 100) {  // Tilføj kun og, hvis der er under 100 tilbage
+                append_and(buffer, format, 1);
+            }
+            convert_to_danish(rem, buffer, format);
+        }
+    }
 }
 
 
@@ -75,7 +113,7 @@ int main() {
     char buffer[1024] = {0};
     struct NumberFormat format = {LAST, EVERY, 0};
 
-    dansketal(12555, buffer, format);
+    dansketal(1567, buffer, format);
     printf("%s\n", buffer);
 
     return 0;
