@@ -50,6 +50,23 @@ void convert_to_danish(int number, char* buffer, struct NumberFormat format) {
             strcat(buffer, "og");       // Tilføjer og
             strcat(buffer, tens[ten]);  // Tilføjer tens
         }
+    } else if (number < 1000) {
+        int hundred = number / 100;
+        int rem = number % 100;
+
+        if (hundred == 1 && !format.use_et) {
+            strcat(buffer, "hundred");
+        } else {
+            strcat(buffer, ones[hundred]);
+            strcat(buffer, " ");
+            strcat(buffer, format.e == NEVER ? "hundred" : "hundrede");
+        }
+
+        if (rem > 0) {
+            strcat(buffer, " ");
+            append_and(buffer, format, 1);
+            convert_to_danish(rem, buffer, format);
+        }
     } 
 }
 
