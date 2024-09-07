@@ -1,4 +1,4 @@
-# Template - Ali Mohammad
+# c-dansketal - Ali Mohammad
 
 Tested on:
 Windows 11
